@@ -1178,6 +1178,44 @@ a.it.xit small{color:var(--blue);font-weight:700}
 .sh-q .xqs{display:block;font-style:normal;font-size:15px;font-weight:700;line-height:1.55;margin-top:3px;padding-left:1.5em;text-indent:-1.5em}
 .sh-q .xqs:first-of-type{margin-top:7px}
 
+/* 문항집: 인터랙티브 퀴즈 · 타임어택 (qa.js). 대시보드의 색 토큰만 쓴다 */
+.qa-bar{margin-top:16px;flex-wrap:wrap}
+.qa-bar .btn{min-height:40px;padding:0 14px;font-size:14px}
+.qa-frame{margin-top:10px;max-width:1100px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#06070f}
+.qa-frame iframe{display:block;width:100%;aspect-ratio:16 / 9.6;border:0}
+.qa-list{display:flex;flex-direction:column;gap:4px;max-width:1100px}
+.qa-row{display:grid;grid-template-columns:42px 92px minmax(0,1fr) auto;align-items:center;gap:10px;padding:8px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card);scroll-margin-top:100px}
+.qa-row.hl{border-color:var(--accent);box-shadow:inset 3px 0 0 var(--accent)}
+.qa-row b{font-size:13px;color:var(--accent)}
+.qa-k{font-size:12.5px;font-weight:800;color:var(--blue)}
+.qa-t{font-size:14.5px;font-weight:700;min-width:0;word-break:keep-all}
+.qa-row .bk small{margin-right:6px}
+.qa-set{margin-top:6px;font-size:14px}
+.qa-set b{color:var(--accent);margin-right:6px}
+.qa-mini{list-style:none;margin:6px 0 4px;padding:0;display:flex;flex-direction:column;gap:4px}
+.qa-mini li{display:flex;align-items:center;gap:8px;font-size:14.5px;font-weight:700}
+.qa-mini a{color:var(--ink);text-decoration:none;min-width:0;word-break:keep-all}
+.qa-mini a:hover{color:var(--blue)}
+.qa-ans{display:flex;flex-direction:column;gap:12px;max-width:1100px}
+.qa-a{padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:var(--card)}
+.qa-ah{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}
+.qa-ah b{font-size:16px;word-break:keep-all}
+.qa-n{font-size:22px;font-weight:900;color:var(--accent)}
+.qa-ab{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:12px 24px;margin-top:10px}
+.qa-ab .lbl{font-size:12.5px;font-weight:800;color:var(--ink-3);margin-bottom:6px}
+.qa-ab ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:3px;font-size:14.5px;line-height:1.5}
+.qa-src{color:var(--ink-3);font-size:12.5px;align-self:center}
+@media (max-width:720px){.qa-row{grid-template-columns:36px minmax(0,1fr);}.qa-row .qa-k{grid-column:2}.qa-row .qa-t{grid-column:1 / -1}.qa-row .bk{grid-column:1 / -1;justify-self:start}.qa-ab{grid-template-columns:1fr}.qa-bar .xhint{display:none}}
+.qa-bar button.btn{min-height:40px;padding:0 14px;font-size:14px}
+body.qa-lock{overflow:hidden}
+.qa-ovl{position:fixed;inset:0;z-index:200;display:flex;flex-direction:column;background:rgba(4,5,12,.94);padding:calc(env(safe-area-inset-top,0px) + 10px) 12px calc(env(safe-area-inset-bottom,0px) + 12px)}
+.qa-ovl-h{display:flex;align-items:center;gap:10px;padding:0 4px 10px;color:#e8eafa;font-size:15px}
+.qa-ovl-h .grow{flex:1}
+.qa-ovl-b{flex:1;min-height:0;display:flex;justify-content:center}
+.qa-ovl iframe{width:100%;height:100%;border:0;border-radius:10px;background:#06070f}
+.qa-ovl.phone iframe{width:min(430px,100%)}
+.qa-bar .seg{display:inline-flex}
+
 </style>
 
 <header class="top"><div class="top-in">
@@ -1235,7 +1273,7 @@ const downloadsP = (window.claude && typeof window.claude.use === 'function') ? 
 /* ---------- 자료 불러오기 ---------- */
 const cache = Object.assign({}, window.ZU_PRE || {}), waiting = {}, loading = {};
 function settle(key, d){ cache[key] = d; const w = waiting[key]; if (w){ delete waiting[key]; w.forEach(f => f(d)); } }
-window.ZU = { book: d => settle('book', d), fam: (no, d) => settle('f/' + no, d), topic: (tid, d) => settle('t/' + tid, d), x: (key, d) => settle('x/' + key, d) };
+window.ZU = { book: d => settle('book', d), fam: (no, d) => settle('f/' + no, d), topic: (tid, d) => settle('t/' + tid, d), x: (key, d) => settle('x/' + key, d), q: (key, d) => settle('q/' + key, d) };
 function load(key){
   if (cache[key]) return Promise.resolve(cache[key]);
   if (loading[key]) return loading[key];
@@ -2321,9 +2359,172 @@ document.addEventListener('click', e => {
   if ((v = d('data-ximg'))){ xImage(v); return; }
 });
 
+/* ===== 문항집: 인터랙티브 퀴즈 · 타임어택 =====
+   tools/build_site.py 가 app.js 의 EXAM 자리에 exam.js 다음으로 이 파일을 넣는다. app.js 와 exam.js 의 것(xParse, xBar, xTree, xItemPaint, xItemsOf ...)을 감싸 쓴다.
+   수업 때 띄운 HTML(퀴즈 진행자 화면, 타임어택 화면)을 그대로 보여 준다(강의슬라이드처럼 열어서 보는 메뉴. Peter 10/8).
+   진행자 화면은 #preview(미리 보기: Firebase 없이 넘겨 봄)로, 혼자 풀기는 학생 화면 quiz/index.html#solo-세션 ID 로 연다.
+   자료: data/q/index.js (세션과 타임어택 목록. tools/qa.py 의 site()가 만든다). HTML은 대시보드 폴더의 quiz/, attack/
+   주소: #quiz  #quiz.4-1010-1  #attack  #attack.4-1010 */
+let QZ = { sets: [] }, AT = { days: [] }, qaReady = false;
+const QS = {}, AD = {}, QTP = {}, AEX = {};
+function qaPrep(){
+  if (qaReady || !cache['q/index']) return;
+  qaReady = true; const d = cache['q/index']; QZ = { sets: d.sets || [] }; AT = { days: d.days || [] };
+  QZ.sets.forEach(s => { QS[s.id] = s; s.qs.forEach((q, i) => { if (q.tid) (QTP[q.tid] = QTP[q.tid] || []).push([s, q, i]); }); });
+  AT.days.forEach(d => { AD[d.id] = d; d.sets.forEach(S => S.items.forEach((x, i) => { (AEX[x.ex] = AEX[x.ex] || []).push([d, S, x, i]); })); });
+  if (QZ.sets.length || AT.days.length) document.querySelectorAll('.menu a[data-m="items"]').forEach(a => a.classList.remove('soon'));
+}
+const QMODE = { choice: '선택', ox: 'OX', multi: '모두 고르기', sort: '분류', order: '순서', match: '짝 맞추기' };
+const QCIRC = ['①', '②', '③', '④', '⑤', '⑥'];
+const qWhen = s => md(ms(s.date)) + '(토)';
+const qMin = s => Math.round(s.qs.reduce((a, q) => a + (q.sec || 20) + 10, 0) / 60);
+// 수업 HTML은 새 창이 아니라 대시보드 안에서 화면 전체로 띄운다 (Claude 페이지에서도 열리게, 10/8 Peter)
+const big = (src, title, label, cls, phone) => `<button type="button" class="btn${cls ? ' ' + cls : ''}" data-qaopen="${esc(src)}" data-qatitle="${esc(title)}"${phone ? ' data-qaphone="1"' : ''}>${label}</button>`;
+function qaOpen(src, title, phone){
+  qaClose();
+  const o = document.createElement('div'); o.className = 'qa-ovl' + (phone ? ' phone' : ''); o.setAttribute('role', 'dialog'); o.setAttribute('aria-label', title);
+  o.innerHTML = `<div class="qa-ovl-h"><b>${esc(title)}</b><span class="grow"></span><button type="button" class="pbtn" data-qaclose="1">닫기</button></div><div class="qa-ovl-b"><iframe src="${esc(src)}" title="${esc(title)}" allow="fullscreen"></iframe></div>`;
+  document.body.appendChild(o); document.body.classList.add('qa-lock');
+  const f = o.querySelector('iframe');
+  f.addEventListener('load', () => { try { f.contentWindow.addEventListener('keydown', e => { if (e.key === 'Escape') qaClose(); }); } catch(e){} f.focus(); });   // 같은 출처일 때만 안쪽의 Esc도 받는다
+}
+function qaClose(){ const o = document.querySelector('.qa-ovl'); if (o){ o.remove(); document.body.classList.remove('qa-lock'); } }
+document.addEventListener('click', e => {
+  const t = e.target.closest && e.target.closest('[data-qaopen],[data-qaclose]'); if (!t) return;
+  if (t.dataset.qaclose) qaClose(); else qaOpen(t.dataset.qaopen, t.dataset.qatitle, !!t.dataset.qaphone);
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') qaClose(); });
+document.addEventListener('click', e => { const b = e.target.closest && e.target.closest('[data-qamode]'); if (!b || st.route.v !== 'xqset') return; st.qamode = b.dataset.qamode; quizSet(st.route); });   // 화면을 다시 그려 iframe 을 새로 연다
+window.addEventListener('hashchange', qaClose);
+
+/* ---------- 주소 ---------- */
+const _xParse0 = xParse;
+xParse = function(h){
+  qaPrep(); let m;
+  if (h === 'quiz') return { v: 'xquiz' };
+  if ((m = /^quiz\.(\d+-\d{4}-\d)$/.exec(h)) && QS[m[1]]) return { v: 'xqset', qsid: m[1] };
+  if (h === 'attack') return { v: 'xattack' };
+  if ((m = /^attack\.(\d+-\d{4})$/.exec(h)) && AD[m[1]]) return { v: 'xaday', adid: m[1] };
+  return _xParse0(h);
+};
+
+/* ---------- 맨 위 카드 줄: 세 종류 ---------- */
+xBar = function(){
+  qaPrep();
+  const bar = $('#subjbar'), v = st.route.v, show = v === 'xhome' || v === 'xquiz' || v === 'xattack';
+  bar.hidden = !show; if (!show){ bar.innerHTML = ''; return; }
+  const n1 = XD.items.filter(q => q.f === 1).length, nq = QZ.sets.reduce((a, s) => a + s.qs.length, 0);
+  const card = (on, href, tag, em, b, small) => `<a class="sbc${on ? ' on' : ''}" href="#${href}"${on ? ' aria-current="page"' : ''}><span class="sb-top"><i>${tag}</i><em>${em}</em></span><b>${b}</b><small>${small}</small></a>`;
+  bar.innerHTML = card(v === 'xhome', 'items', '주간', `문항 ${XD.items.length}`, '주간모의고사', `${XD.sets.length}주간 · 1교시형 ${n1} · 2교시형 ${XD.items.length - n1}`)
+    + (QZ.sets.length ? card(v === 'xquiz', 'quiz', '퀴즈', `세션 ${QZ.sets.length}`, '인터랙티브 퀴즈', `토요일 수업 · 문항 ${nq}`) : '<span class="sbc off"><span class="sb-top"><i>퀴즈</i><em>준비 중</em></span><b>인터랙티브 퀴즈</b><small>토요일 수업</small></span>')
+    + (AT.days.length ? card(v === 'xattack', 'attack', '어택', `${AT.days.length}회`, '타임어택', '1교시형 10분 · 2교시형 25분') : '<span class="sbc off"><span class="sb-top"><i>어택</i><em>준비 중</em></span><b>타임어택</b><small>1교시형 10분 · 2교시형 25분</small></span>');
+};
+
+/* ---------- 차례 ---------- */
+const _xTree0 = xTree;
+xTree = function(){
+  qaPrep(); const r = st.route, quiz = r.v === 'xquiz' || r.v === 'xqset', atk = r.v === 'xattack' || r.v === 'xaday';
+  if (!quiz && !atk) return _xTree0();
+  let h = `<div class="subj xsubj"><span>${quiz ? '인터랙티브 퀴즈' : '타임어택'}</span><small>${quiz ? QZ.sets.length + '세션' : AT.days.length + '회'}</small></div>`;
+  h += `<div class="treetop"><a href="#items">주간모의고사</a><a href="#quiz"${quiz ? ' aria-current="page"' : ''}>퀴즈</a><a href="#attack"${atk ? ' aria-current="page"' : ''}>타임어택</a></div><ul class="tree">`;
+  if (quiz){
+    [...new Set(QZ.sets.map(s => s.date))].sort().reverse().forEach(d => {
+      h += `<li class="sub-h">${esc(B.term)} · ${weekRange(d)}</li>`;
+      QZ.sets.filter(s => s.date === d).forEach(s => { h += `<li><a class="fam${r.qsid === s.id ? ' cur' : ''}" href="#quiz.${s.id}"><span class="fn"><em class="xwk">${qWhen(s)}</em>세션 ${s.n}</span><small>${s.qs.length}</small></a></li>`; });
+    });
+  } else {
+    AT.days.slice().sort((a, b) => b.date.localeCompare(a.date)).forEach(d => {
+      h += `<li class="sub-h">${esc(B.term)} · ${weekRange(d.date)}</li><li><a class="fam${r.adid === d.id ? ' cur' : ''}" href="#attack.${d.id}"><span class="fn"><em class="xwk">${qWhen(d)}</em>세트 ${d.sets.map(S => S.set).join('·')}</span><small>${d.sets.reduce((a, S) => a + S.items.length, 0)}</small></a></li>`;
+    });
+  }
+  h += `</ul><p class="treefoot">${quiz ? '세션 하나가 토요일 수업의 15분 퀴즈 한 번입니다.' : '토요일 16:00~18:00, 60분 세트 두 개입니다.'}</p>`;
+  $('#tree').innerHTML = h;
+  $('#sidesum').innerHTML = `${chev(false)}<span>문항집 · ${quiz ? '인터랙티브 퀴즈' : '타임어택'}</span>`;
+};
+
+/* ---------- 퀴즈 ---------- */
+function quizHome(){
+  let h = '<div class="crumb"><a href="#items">문항집</a><span>›</span><span>인터랙티브 퀴즈</span></div><h1 class="vhead"><span class="no">문항집</span>인터랙티브 퀴즈</h1>';
+  h += '<p class="vsub">토요일 수업에서 진행자 화면을 띄우고 휴대폰이나 노트북으로 함께 푼 퀴즈입니다. 수업 화면을 다시 보거나, 학생 화면의 혼자 풀기로 다시 풀어 볼 수 있습니다.</p>';
+  [...new Set(QZ.sets.map(s => s.date))].sort().reverse().forEach(d => {
+    const w = B.weeks.find(x => x.date === d) || { date: d, fams: [] }, ws = weekState(w, todayMs());
+    h += `<section class="xsec"><div class="sec-h"><h2>${ws === 'now' ? '이번 주간' : (ws === 'past' ? '지난 주간' : '다음 주간')} · ${weekRange(d)}</h2></div><div class="wlist">`;
+    QZ.sets.filter(s => s.date === d).forEach(s => {
+      h += `<div class="wrow ${ws}"><div class="w-when"><b>세션 ${s.n}</b><span>${qWhen(s)}${s.time ? ' ' + esc(s.time) : ''}</span></div><div class="w-body"><b>${esc(s.range)}</b>`
+        + `<p>${s.qs.length}문 · 약 ${qMin(s)}분</p><div class="xact"><a class="btn pri" href="#quiz.${s.id}">수업 화면${arrow}</a>${big(s.solo, `세션 ${s.n} 혼자 풀기`, '혼자 풀기', '', true)}</div></div></div>`;
+    });
+    h += '</div></section>';
+  });
+  $('#view').innerHTML = h;
+}
+function quizSet(r){
+  const s = QS[r.qsid], i = QZ.sets.indexOf(s), p = QZ.sets[i - 1], n = QZ.sets[i + 1];
+  let h = `<div class="crumb"><a href="#items">문항집</a><span>›</span><a href="#quiz">인터랙티브 퀴즈</a><span>›</span><span>${qWhen(s)} 세션 ${s.n}</span></div>`;
+  h += `<h1 class="vhead"><span class="no">${esc(B.term)} 인터랙티브 퀴즈 · ${qWhen(s)}</span>세션 ${s.n} · ${esc(s.range)}</h1>`;
+  h += `<div class="tmeta"><span class="chip">문항 <b>${s.qs.length}</b></span><span class="chip">약 <b>${qMin(s)}</b>분</span>${s.fams.map(no => `<a class="chip xfam" href="#${no}">${esc(no)}</a>`).join('')}</div>`;
+  const live = st.qamode === 'live', src = s.host + (live ? '' : '#preview');   // 미리 보기: Firebase 없이 넘겨 봄 / 세션으로 진행: 접속 코드를 만들어 수업처럼 진행
+  h += `<div class="fbar qa-bar"><span class="lbl">수업 화면</span><div class="seg" role="group" aria-label="진행 방식"><button type="button" data-qamode="preview" aria-pressed="${!live}">미리 보기</button><button type="button" data-qamode="live" aria-pressed="${live}">세션으로 진행</button></div>`
+    + `<span class="xhint">${live ? '세션 만들기를 누르면 접속 코드와 QR이 나오고, 학생은 휴대폰이나 노트북으로 들어옵니다' : '미리 보기 시작을 누르면 문항이 넘어갑니다 (→ 다음, 정답 공개). 응답은 받지 않습니다'}</span><span class="grow"></span>${big(s.solo, `세션 ${s.n} 혼자 풀기`, '혼자 풀기', 'pri', true)}${big(src, `${qWhen(s)} 세션 ${s.n} 수업 화면`, '크게 보기')}</div>`;
+  h += `<div class="qa-frame"><iframe src="${src}" title="세션 ${s.n} 진행자 화면" loading="lazy" allow="fullscreen"></iframe></div>`;
+  h += `<section class="xsec"><div class="sec-h"><h2>이 세션의 문항</h2><p>토픽을 누르면 그 토픽의 교재로 갑니다.</p></div><div class="qa-list">`
+    + s.qs.map((q, k) => { const t = T[q.tid]; return `<div class="qa-row" id="q${k}"><b>${esc(q.no)}</b><span class="qa-k">${esc(q.kind)}</span><span class="qa-t">${esc(q.title)}</span>${t ? `<a class="bk" href="#${t.tid}" data-ref="${t.tid}"><small>${esc(t.no)}</small>${esc(t.short)}</a>` : ''}</div>`; }).join('') + '</div></section>';
+  h += `<nav class="pager" aria-label="세션 이동">${p ? `<a href="#quiz.${p.id}"><small>← 이전 세션</small><span>${qWhen(p)} 세션 ${p.n}</span></a>` : ''}${n ? `<a class="nx" href="#quiz.${n.id}"><small>다음 세션 →</small><span>${qWhen(n)} 세션 ${n.n} · ${esc(n.range)}</span></a>` : ''}</nav>`;
+  $('#view').innerHTML = h;
+  if (st.qgo !== undefined){ const g = st.qgo; st.qgo = undefined; setTimeout(() => { const el = document.getElementById('q' + g); if (el){ el.scrollIntoView({ block: 'center' }); el.classList.add('hl'); } }, 0); }
+}
+
+/* ---------- 타임어택 ---------- */
+function attackHome(){
+  let h = '<div class="crumb"><a href="#items">문항집</a><span>›</span><span>타임어택</span></div><h1 class="vhead"><span class="no">문항집</span>타임어택</h1>';
+  h += '<p class="vsub">토요일 계열 강의 뒤에 그 주 과제 문항을 실제 시험 시간으로 다시 써 보는 답안 훈련입니다. 1교시형은 쓰기 10분, 2교시형은 25분이고 문항마다 셀프점검 5분입니다.</p>';
+  AT.days.slice().sort((a, b) => b.date.localeCompare(a.date)).forEach(d => {
+    const w = B.weeks.find(x => x.date === d.date) || { date: d.date, fams: [] }, ws = weekState(w, todayMs());
+    h += `<section class="xsec"><div class="sec-h"><h2>${ws === 'now' ? '이번 주간' : (ws === 'past' ? '지난 주간' : '다음 주간')} · ${weekRange(d.date)}</h2></div><div class="wlist"><div class="wrow ${ws}"><div class="w-when"><b>${qWhen(d)}</b><span>${esc(d.time || '')}</span></div><div class="w-body">`
+      + d.sets.map(S => `<p class="qa-set"><b>세트 ${S.set}</b> ${esc(S.range)}</p><ol class="qa-mini">${S.items.map(x => { const q = XQ[x.ex]; return `<li><i class="rt xn ${q.f === 1 ? 'r2' : 'r3'}">${q.f === 1 ? '1교시' : '2교시'}</i><a href="#${x.ex}">${esc(q.t)}</a></li>`; }).join('')}</ol>`).join('')
+      + `<div class="xact"><a class="btn pri" href="#attack.${d.id}">수업 화면${arrow}</a></div></div></div></div></section>`;
+  });
+  $('#view').innerHTML = h;
+}
+function attackDay(r){
+  const d = AD[r.adid];
+  let h = `<div class="crumb"><a href="#items">문항집</a><span>›</span><a href="#attack">타임어택</a><span>›</span><span>${qWhen(d)}</span></div>`;
+  h += `<h1 class="vhead"><span class="no">${esc(B.term)} 타임어택 · ${qWhen(d)} ${esc(d.time || '')}</span>세트 ${d.sets.map(S => S.set).join('·')} · ${d.sets.length * 60}분</h1>`;
+  h += `<div class="fbar qa-bar"><span class="lbl">수업 화면</span><span class="xhint">문항 장에서 시작(S)을 누르면 쓰기 시간과 셀프점검 시간이 흐릅니다</span><span class="grow"></span>${big(d.deck, `${qWhen(d)} 타임어택 수업 화면`, '크게 보기')}</div>`;
+  h += `<div class="qa-frame"><iframe src="${d.deck}" title="${qWhen(d)} 타임어택 화면" loading="lazy" allow="fullscreen"></iframe></div>`;
+  d.sets.forEach(S => {
+    h += `<section class="xsec"><div class="sec-h"><h2>세트 ${S.set} · 모범답안 요약</h2><p>${esc(S.range)} · 셀프점검 때 견주는 목차와 필수 키워드입니다.</p></div><div class="qa-ans">`;
+    S.items.forEach((x, i) => {
+      const q = XQ[x.ex];
+      h += `<div class="qa-a"><div class="qa-ah"><span class="qa-n">${QCIRC[i]}</span><span class="chip role ${q.f === 1 ? 'r2' : 'r3'}">${q.f === 1 ? '1교시형' : '2교시형'} · 쓰기 ${x.min}분</span><b>${esc(q.t)}</b></div>`
+        + `<div class="qa-ab"><div><p class="lbl">답안 목차</p><ol>${x.outline.map(o => `<li>${esc(o.replace(/^\d+\.\s*/, ''))}</li>`).join('')}</ol></div><div><p class="lbl">필수 키워드</p><div class="kchips">${x.keys.map(k => `<span>${esc(k)}</span>`).join('')}</div></div></div>`
+        + `<div class="xact"><a class="btn line" href="#${x.ex}.ans">모범답안 보기${arrow}</a><a class="btn" href="#${x.ex}">문항 화면 · 교재</a><small class="qa-src">${xNo(q)}</small></div></div>`;
+    });
+    h += '</div></section>';
+  });
+  h += `<p class="credit">${esc(B.site.credit)}</p>`;
+  $('#view').innerHTML = h;
+}
+VIEW.xquiz = quizHome; VIEW.xqset = quizSet; VIEW.xattack = attackHome; VIEW.xaday = attackDay;
+
+/* 새 창 링크는 앱의 링크 처리(#주소 이동)를 거치지 않는다 */
+document.addEventListener('click', e => { const g = e.target.closest && e.target.closest('[data-qgo]'); if (g) st.qgo = +g.dataset.qgo; }, true);
+
+/* ---------- 다른 화면에 붙는 것: 문항 화면의 출제 이력, 토픽 화면의 "이 토픽의 문항" ---------- */
+const _xItemPaint0 = xItemPaint;
+xItemPaint = function(r){
+  _xItemPaint0(r); qaPrep();
+  const rows = AEX[r.qid]; if (!rows) return;
+  const box = document.querySelector('#view .box .items'); if (!box) return;
+  box.insertAdjacentHTML('afterbegin', rows.map(([d, S, x, i]) => `<a class="it xit" href="#attack.${d.id}"><em>타임어택</em><span>${qWhen(d)} 세트 ${S.set} · ${QCIRC[i]} ${XQ[x.ex].f === 1 ? '1교시형' : '2교시형'} · 쓰기 ${x.min}분 + 셀프점검 ${x.check}분</span><small>수업 화면 →</small></a>`).join(''));
+};
+const _xItemsOf0 = xItemsOf;
+xItemsOf = function(tid){
+  qaPrep(); return _xItemsOf0(tid) + (QTP[tid] || []).map(([s, q, i]) => `<a class="it xit" href="#quiz.${s.id}" data-qgo="${i}"><em>인터랙티브 퀴즈 · ${esc(q.kind)}</em><span>${esc(q.title)}</span><small>${qWhen(s)} 세션 ${s.n} · ${esc(q.no)}</small></a>`).join('');
+};
+
 
 /* ---------- 시작 ---------- */
-Promise.all([load('book'), load('x/index').catch(() => null)]).then(([b]) => {
+Promise.all([load('book'), load('x/index').catch(() => null), load('q/index').catch(() => null)]).then(([b]) => {
   prep(b); xPrep(); renderFoot();
   const sv = store.get('zu-subj'); st.subj = S[sv] ? sv : B.order[0];
   st.hash = location.hash.replace(/^#/, '');
