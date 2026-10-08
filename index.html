@@ -1,4 +1,23 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex, nofollow, noarchive"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='1' x2='1' y2='0'%3E%3Cstop offset='0' stop-color='%23FF6B35'/%3E%3Cstop offset='1' stop-color='%23F7C948'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='8' fill='url(%23g)'/%3E%3Cpath d='M8.5 9.6h15M8.5 22.4h15' stroke='%23141833' stroke-width='3.4' stroke-linecap='round'/%3E%3Cpath d='M22.4 11.2L9.6 20.8' stroke='%23141833' stroke-width='4.2' stroke-dasharray='2 1.55'/%3E%3C/svg%3E"><style>:root{color-scheme:light;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif;background:#0B0D1A}img{max-width:100%}[hidden]{display:none!important}</style></head><body>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex, nofollow, noarchive"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='1' x2='1' y2='0'%3E%3Cstop offset='0' stop-color='%23FF6B35'/%3E%3Cstop offset='1' stop-color='%23F7C948'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='8' fill='url(%23g)'/%3E%3Cpath d='M8.5 9.6h15M8.5 22.4h15' stroke='%23141833' stroke-width='3.4' stroke-linecap='round'/%3E%3Cpath d='M22.4 11.2L9.6 20.8' stroke='%23141833' stroke-width='4.2' stroke-dasharray='2 1.55'/%3E%3C/svg%3E"><style>:root{color-scheme:light;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif;background:#0B0D1A}img{max-width:100%}[hidden]{display:none!important}</style>
+<style id="zs-slides">
+/* 강의슬라이드 (검토판 덧붙임 10/8). 새 이름(zs-)만 쓰고 기존 규칙은 고치지 않는다. 색은 모두 사이트의 변수 */
+.zs-no{font-style:normal;font-family:var(--f-mono);font-size:13px;font-weight:700;color:var(--accent);margin-right:8px}
+.zs-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px;margin-top:16px;padding:10px 0;border-bottom:1px solid var(--line)}
+.zs-bar .tmeta{margin-top:0}
+.zs-bar .btn{min-height:44px}
+.zs-chips{display:flex;flex-wrap:wrap;gap:6px;min-width:0}
+.zs-n{font-style:normal;font-family:var(--f-mono);font-size:11px;font-weight:700;color:var(--ink-3);margin-right:6px;font-variant-numeric:tabular-nums}
+.zs-sbk{align-self:center}
+.zs-row:hover{background:none}
+.zs-row .on b a{color:inherit;text-decoration:none}
+.zs-row .on b a:hover{text-decoration:underline}
+.zs-row .oh{display:flex;justify-content:flex-end;gap:12px}
+.zs-row .oh a{font-size:13px;font-weight:700;color:var(--blue);text-decoration:none}
+.zs-row .oh a:hover{text-decoration:underline}
+.zs-tb{align-self:center;display:inline-flex;align-items:center;gap:6px;min-height:36px;margin:0 0 6px 6px;padding:0 12px;border:1px solid var(--line);border-radius:999px;background:var(--card);font-size:12.5px;font-weight:700;text-decoration:none;color:var(--blue);white-space:nowrap}
+.zs-tb:hover{border-color:var(--blue)}
+@media (max-width:900px){ .zs-row .oh{justify-content:flex-start} }
+</style></head><body>
 <title>ZIP-UP 정보관리기술사 심화반</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding:wght@400;700&family=Noto+Sans+KR:wght@400;500;700;900&display=swap">
 <style>
@@ -1223,7 +1242,7 @@ body.qa-lock{overflow:hidden}
   <nav class="menu" aria-label="통합교재 메뉴">
     <a href="#toc" data-m="toc">통합목차</a>
     <a href="#note" data-m="note">서브노트</a>
-    <a href="#slides" data-m="slides" class="soon">강의슬라이드</a>
+    <a href="#slides" data-m="slides">강의슬라이드</a>
     <a href="#items" data-m="items" class="soon">문항집</a>
     <a href="#about" data-m="about" class="only-m join">심화반 안내</a>
     <a href="#term" data-m="term" class="only-m">4기 일정</a>
@@ -2520,6 +2539,134 @@ xItemPaint = function(r){
 const _xItemsOf0 = xItemsOf;
 xItemsOf = function(tid){
   qaPrep(); return _xItemsOf0(tid) + (QTP[tid] || []).map(([s, q, i]) => `<a class="it xit" href="#quiz.${s.id}" data-qgo="${i}"><em>인터랙티브 퀴즈 · ${esc(q.kind)}</em><span>${esc(q.title)}</span><small>${qWhen(s)} 세션 ${s.n} · ${esc(q.no)}</small></a>`).join('');
+};
+
+
+/* ---------- 강의슬라이드 (검토판 덧붙임 10/8) ----------
+   이 묶음은 weeks/w02_1010/review_site/slides_menu.js 에 있고, build_review.py 가 대시보드 사본(index.html)의
+   '시작' 절 바로 앞(앱의 같은 함수 안)에 넣는다. engine/site/app.js 는 고치지 않는다.
+   기존 화면은 그대로 두고 덧붙이기만 한다:
+     #slides, #slides.SE     강의슬라이드 메뉴 (과목 카드 + 왼쪽 목차 + 주차별 계열 목록)
+     #SE-13.slides           계열 화면의 세 번째 탭 '강의슬라이드' (슬라이드가 열린 계열에만)
+     토픽 화면               교재·암기 요약 탭 옆의 '강의 슬라이드' 단추 (슬라이드가 열린 계열에만)
+   슬라이드 파일은 lecture/{계열}.html (학생용, 강의 스크립트 없음). */
+const ZS = {"fams": {"SE-13": {"file": "lecture/SE-13.html", "slides": 54, "steps": 167, "minutes": 48, "built": "2026-10-08", "lead": "계열 소개와 토픽맵에서 토픽 5개를 거쳐 핵심 비교와 기출 변형까지.", "intro": [[1, "계열 소개"], [2, "토픽맵"], [3, "토픽 연결 지도"]], "stages": [[4, "단계 장"], [22, "단계 장"], [32, "단계 장"]], "topics": {"TP-0136": [[5, "표지"], [6, "정의"], [7, "개념 1"], [8, "개념 2"], [9, "비유"], [10, "예시"], [11, "답안 2단락"], [12, "답안 3단락"], [13, "답안 4단락"]], "TN-0015": [[14, "표지"], [15, "정의"], [16, "개념 1"], [17, "개념 2"], [18, "예시"], [19, "답안 2단락"], [20, "답안 3단락"], [21, "답안 4단락"]], "TP-0692": [[23, "표지"], [24, "정의"], [25, "개념 1"], [26, "개념 2"], [27, "비유"], [28, "예시"], [29, "답안 2단락"], [30, "답안 3단락"], [31, "답안 4단락"]], "TP-0298": [[33, "표지"], [34, "정의"], [35, "개념 1"], [36, "개념 2"], [37, "비유"], [38, "예시"], [39, "답안 2단락"], [40, "답안 3단락"], [41, "답안 4단락"]], "TN-0016": [[42, "표지"], [43, "정의"], [44, "개념 1"], [45, "개념 2"], [46, "비유"], [47, "예시"], [48, "답안 2단락"], [49, "답안 3단락"], [50, "답안 4단락"]]}, "end": [[51, "리뷰 네 유형"], [52, "핵심 비교"], [53, "기출 변형"], [54, "다음 계열로"]]}}};
+const slideOf = no => (ZS.fams && ZS.fams[no]) || null;
+const zsHas = c => S[c] && S[c].fams.some(f => slideOf(f.no));
+const zsW1 = () => { const w = B.weeks.find(x => x.week === 1); return w ? w.fams : []; };
+const ZS_ICON = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="13" rx="2"></rect><path d="M8 21h8M12 17v4"></path></svg>';
+
+/* 홈과 준비 중 안내의 '열리는 순서' */
+(() => { const k = ROAD.findIndex(x => x[1] === '강의슬라이드'), n = Object.keys(ZS.fams || {}).length;
+  if (k >= 0 && n) ROAD[k] = [1, '강의슬라이드', `지금 ${n}계열. 토픽맵에서 기출 변형까지`]; })();
+/* 위쪽 메뉴의 '준비 중' 표시는 build_review.py 가 index.html 에서 뗀다 */
+
+/* 주소 */
+const zsParse0 = parse;
+parse = function(h){
+  const x = String(h || '').replace(/^#/, ''); let m;
+  if (x === 'slides') return { v: 'slides', subj: zsHas(st.subj) ? st.subj : (B.order.find(zsHas) || st.subj) };
+  if ((m = /^slides\.([A-Z]+)$/.exec(x)) && S[m[1]]) return { v: 'slides', subj: m[1] };
+  if ((m = /^([A-Z]+-\d\d)\.slides$/.exec(x)) && F[m[1]] && slideOf(m[1])) return { v: 'fam', no: m[1], tab: 'slides' };
+  return zsParse0(h);
+};
+
+/* 메뉴 화면: 통합목차의 과목 전체 표와 같은 틀 (과목 카드, 왼쪽 목차, 오른쪽 목록) */
+function zsRow(f, w1){
+  const x = slideOf(f.no), name = `<b><em class="zs-no">${esc(f.no)}</em>${esc(f.name)}</b><span><span class="chip">토픽 <b>${f.n}</b></span></span>`;
+  if (x) return `<a class="orow open" href="#${f.no}.slides"><div class="on">${name}</div><p class="od">${esc(x.lead)}</p><div class="oh"><b>${x.slides}장</b>약 ${x.minutes}분 · ${md(ms(x.built))} 고침</div></a>`;
+  return `<a class="orow" href="#${f.no}"><div class="on">${name}</div><p class="od wait">${w1.indexOf(f.no) >= 0 ? '교재가 완성된 뒤에 올립니다' : '준비 중'}</p><div class="oh"></div></a>`;
+}
+function zsMenu(r){
+  const s = S[r.subj || st.subj], w1 = zsW1(), op = s.fams.filter(f => slideOf(f.no)).length;
+  let h = `<div class="crumb"><span>강의슬라이드</span></div><h1 class="vhead"><span class="no">${esc(s.code)}</span>${esc(s.name)}</h1>`;
+  h += '<p class="vsub">계열마다 슬라이드 한 벌입니다. 계열 소개와 토픽맵에서 시작해 토픽마다 정의, 개념, 예시, 답안 단락을 보고, 핵심 비교와 기출 변형으로 마무리합니다. 강의 화면 그대로이며 강의 스크립트는 들어 있지 않습니다.</p>';
+  h += `<div class="tmeta"><span class="chip">계열 <b>${s.fams.length}</b></span><span class="chip">슬라이드 공개 <b>${op}</b></span></div>`;
+  const groups = [];
+  s.fams.forEach(f => {
+    const w = B.weeks.find(x => x.fams.indexOf(f.no) >= 0) || null, k = w ? w.week : 999;
+    let g = groups.find(x => x.k === k); if (!g){ g = { k, w, list: [] }; groups.push(g); }
+    g.list.push(f);
+  });
+  groups.sort((a, b) => a.k - b.k).forEach(g => {
+    const head = g.w ? `${g.w.week}주차 · ${md(ms(g.w.date))} ${g.w.type === '자습' ? '자습' : '강의'}` : '강의 일정 밖';
+    const foot = (g.w && g.w.week === 1) ? '<p class="stg-f">1주차 슬라이드는 1주차 교재가 모두 완성된 뒤에 올립니다.</p>' : '';
+    h += `<section class="stg"><div class="stg-h"><b>${esc(head)}</b>${g.w ? `<span>${esc(g.w.theme)}</span>` : ''}</div><div class="olist">${g.list.map(f => zsRow(f, w1)).join('')}</div>${foot}</section>`;
+  });
+  h += '<p class="legend">밝은 이름이 슬라이드를 연 계열입니다. 누르면 계열 화면의 강의슬라이드 탭에서 장 목록을 보고, 원하는 장부터 엽니다.</p>';
+  $('#view').innerHTML = h;
+}
+VIEW.slides = zsMenu;
+
+const zsTree0 = renderTree;
+renderTree = function(){
+  zsTree0();
+  if (!st.route || st.route.v !== 'slides') return;
+  const s = S[st.subj], top = $('#tree .treetop a');
+  if (top){ top.textContent = '강의슬라이드 목록'; top.setAttribute('href', '#slides.' + s.code); top.setAttribute('aria-current', 'page'); }
+  document.querySelectorAll('#tree a.fam[data-famrow]').forEach(a => { if (slideOf(a.dataset.famrow)) a.setAttribute('href', '#' + a.dataset.famrow + '.slides'); });
+  const sum = $('#sidesum span'); if (sum) sum.textContent = '강의슬라이드 · ' + s.code + ' ' + s.name;
+};
+const zsBar0 = renderSubjBar;
+renderSubjBar = function(){
+  if (!st.route || st.route.v !== 'slides'){ zsBar0(); return; }
+  const bar = $('#subjbar'); bar.classList.remove('xkinds'); bar.hidden = false;
+  bar.innerHTML = B.order.map(c => {
+    const s = S[c], n = s.fams.reduce((a, f) => a + f.n, 0), op = s.fams.filter(f => slideOf(f.no)).length, on = c === st.subj;
+    return `<a class="sbc${on ? ' on' : ''}" href="#slides.${c}"${on ? ' aria-current="page"' : ''}><span class="sb-top"><i>${esc(c)}</i>${op ? `<em>슬라이드 ${op}</em>` : ''}</span><b>${esc(s.name)}</b><small>${s.fams.length}계열 · ${n}토픽</small></a>`;
+  }).join('');
+  const cur = bar.querySelector('.on');
+  if (cur && bar.scrollWidth > bar.clientWidth) bar.scrollLeft = Math.max(0, cur.offsetLeft - (bar.clientWidth - cur.offsetWidth) / 2);
+};
+document.addEventListener('change', e => {
+  if (e.target && e.target.id === 'subjsel' && st.route && st.route.v === 'slides'){ e.stopImmediatePropagation(); nav('slides.' + e.target.value); }
+}, true);
+
+/* 계열 화면의 세 번째 탭: 토픽 한눈에 보기와 같은 틀 (단계 제목, 카드) */
+function zsBody(f, fd){
+  const x = slideOf(f.no), chip = p => `<a class="bk" href="${x.file}#${p[0]}"><i class="zs-n">${p[0]}</i>${esc(p[1])}</a>`;
+  const blk = (head, sub, mark, rows) => `<section class="stg"><div class="stg-h"><b>${esc(head)}</b>${sub ? `<span>${esc(sub)}</span>` : ''}${mark || ''}</div><div class="olist">${rows}</div></section>`;
+  const plain = (name, ps) => `<div class="orow zs-row"><div class="on"><b>${esc(name)}</b></div><div class="od zs-chips">${ps.map(chip).join('')}</div><div class="oh"></div></div>`;
+  let h = `<div class="zs-bar"><div class="tmeta"><span class="chip">장 <b>${x.slides}</b></span><span class="chip">누르는 단계 <b>${x.steps}</b></span><span class="chip">약 <b>${x.minutes}</b>분</span><span class="chip rev">${md(ms(x.built))} 고침</span><span class="chip rvw">강의 영상 준비 중</span></div><a class="btn pri" href="${x.file}#1">처음부터 보기</a></div>`;
+  if (x.intro.length) h += blk('들머리', '계열 소개와 토픽맵', '', plain('계열을 여는 장', x.intro));
+  const stages = (fd && fd.stages) || [['토픽', '', f.list.map(t => t.tid)]];
+  stages.forEach((sg, k) => {
+    const sp = x.stages[k], mark = sp ? `<a class="bk zs-sbk" href="${x.file}#${sp[0]}"><i class="zs-n">${sp[0]}</i>${esc(sp[1])}</a>` : '';
+    const rows = sg[2].map(id => {
+      const t = T[id], ps = x.topics[id]; if (!t || !ps) return '';
+      return `<div class="orow zs-row${t.st ? ' open' : ''}"><div class="on"><b><a href="${x.file}#${id}">${esc(t.name)}</a></b><span>${tags(t)}</span></div><div class="od zs-chips">${ps.map(chip).join('')}</div><div class="oh">${t.st ? `<a href="#${id}">교재</a><a href="#${id}.sum">요약</a>` : ''}</div></div>`;
+    }).join('');
+    h += blk(sg[0], sg[1], mark, rows);
+  });
+  if (x.end.length) h += blk('계열 정리', '핵심 비교와 기출 변형', '', plain('계열을 닫는 장', x.end));
+  h += '<p class="legend">번호는 슬라이드의 장 번호입니다. 누르면 그 장부터 열리고, 토픽 이름을 누르면 그 토픽의 표지 장부터 열립니다. 슬라이드에는 강의 스크립트가 들어 있지 않습니다.</p>';
+  return h;
+}
+const zsFam0 = famView;
+VIEW.fam = function(r){
+  if (!slideOf(r.no)){ zsFam0(r); return; }
+  zsFam0(r.tab === 'slides' ? Object.assign({}, r, { tab: 'list' }) : r);
+  const tr = $('#view .tabrow'); if (!tr) return;
+  if (r.tab === 'slides') tr.querySelectorAll('.tab').forEach(b => b.setAttribute('aria-selected', 'false'));
+  const a = document.createElement('a'); a.className = 'tab'; a.setAttribute('role', 'tab'); a.href = '#' + r.no + '.slides';
+  a.setAttribute('aria-selected', String(r.tab === 'slides')); a.textContent = '강의슬라이드';
+  tr.insertBefore(a, tr.querySelector('.side-link'));
+};
+const zsPaint0 = paintFam;
+paintFam = function(f, fd, tab){
+  zsPaint0(f, fd, tab);
+  const r = st.route;
+  if (r && r.v === 'fam' && r.tab === 'slides' && r.no === f.no && slideOf(f.no)) $('#fambody').innerHTML = zsBody(f, fd);
+};
+
+/* 토픽 화면: 교재·암기 요약 탭 옆의 단추 하나 */
+const zsTopic0 = paintTopic;
+paintTopic = function(t, d, tab){
+  zsTopic0(t, d, tab);
+  const x = slideOf(t.no), tr = $('#view .tabrow');
+  if (!x || !tr || !x.topics[t.tid]) return;
+  const a = document.createElement('a'); a.className = 'zs-tb'; a.href = x.file + '#' + t.tid; a.innerHTML = ZS_ICON + '<span>강의 슬라이드</span>';
+  tr.insertBefore(a, tr.querySelector('.mini'));
 };
 
 
